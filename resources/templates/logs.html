@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Users Logs</title>
+<link rel="stylesheet" href="css/fontawesome.min.css" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/templatemo-style.css">
+<link href="css/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+
+	<div>
+		<nav class="navbar navbar-expand-xl">
+			<div class="container h-100">
+				<a class="navbar-brand" href="/adminSearch">
+					<h1>Inventory Management System</h1>
+				</a>
+				<ul>
+					<li class="mr-3"><a
+						class="inline-block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
+						href="/">logout</a></li>
+				</ul>
+
+			</div>
+
+
+		</nav>
+		<ul class="flex justify-between">
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/adminSearch">Search Product</a></li>
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/CashierAdmin">Cashier API</a></li>
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/addProduct">Add/Update Product</a></li>
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/List">List Products and Calculation</a></li>
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/usermanage">User Management</a></li>
+
+			<li class="mr-3"><a
+				class="inline-block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
+				href="#">Users Logs</a></li>
+
+		</ul>
+	</div>
+
+
+	<div
+		class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3"
+		role="alert">
+		<p class="font-bold">Welcome to Users Logs</p>
+		<p class="text-sm">
+			User will be able to view logs from users and administrator <a
+				href="#" class="no-underline hover:underline text-teal-500">Here</a>.
+		</p>
+	</div>
+
+	<br>
+	<div
+		class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
+		role="alert" th:if="${show==false}">
+		<div class="flex">
+			<div class="py-1">
+				<svg class="fill-current h-6 w-6 text-teal-500 mr-4"
+					xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+					<path
+						d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" /></svg>
+			</div>
+			<div>
+				<p class="font-bold text-red-500" th:text="${productwarn}"></p>
+				<p class="text-sm">0 Logs found</p>
+			</div>
+		</div>
+	</div>
+	
+	<div id="printableArea" th:if="${show==true}">
+	<br>
+	<br>
+		<h1 align="center" class="font-bold text-3xl">Inventory
+						Management System</h1>
+					<p align="center" class="text-xl">User History (Logs)</p>
+					<p align="center">---------------------------------------------------------------------------------------------------------</p>
+		<br>
+		<h1 align="center" class="text-xl">Stock Added</h1>
+		<br>
+		<table class="table-auto mx-auto ">
+			<thead class="border bg-transparent text-black">
+				<tr>
+					<td class="px-4 py-2 text-xl">Date</td>
+					<td class="px-4 py-2 text-xl">Action</td>
+					<td class="px-4 py-2 text-xl">Product ID</td>
+					<td class="px-4 py-2 text-xl">Brand</td>
+					<td class="px-4 py-2 text-xl">Quantity</td>
+					<td class="px-4 py-2 text-xl">Total Price ($)</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product:${product}">
+					<td th:text="${product.date}" class="border px-4 py-2"></td>
+					<td th:text="${action}" class="border px-4 py-2"></td>
+					<td th:text="${product.id}" class="border px-4 py-2"></td>
+					<td th:text="${product.brand}" class="border px-4 py-2"></td>
+					<td th:text="${product.quantity}" class="border px-4 py-2"></td>
+					<td th:text="${product.totalPrice}" class="border px-4 py-2"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p th:text="${productwarn}"></p>
+		<br> <br> <br>
+		<h1 align="center" class="text-xl">Cashier History</h1>
+		<br>
+		<table class="table-auto mx-auto ">
+			<thead class="border bg-transparent text-black">
+				<tr>
+					<td class="px-4 py-2 text-xl">Date</td>
+					<td class="px-4 py-2 text-xl">Action</td>
+					<td class="px-4 py-2 text-xl">User</td>
+					<td class="px-4 py-2 text-xl">Privilege</td>
+					<td class="px-4 py-2 text-xl">Product ID</td>
+					<td class="px-4 py-2 text-xl">Quantity</td>
+					<td class="px-4 py-2 text-xl">Total Price ($)</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="cashier:${cashier}">
+					<td th:text="${cashier.date}" class="border px-4 py-2"></td>
+					<td th:text="${cashier.action}" class="border px-4 py-2"></td>
+					<td th:text="${cashier.user}" class="border px-4 py-2"></td>
+					<td th:text="${privilege}" class="border px-4 py-2"></td>
+
+					<td th:text="${cashier.id}" class="border px-4 py-2"></td>
+					<td th:text="${cashier.quantity}" class="border px-4 py-2"></td>
+					<td th:text="${cashier.totalPrice}" class="border px-4 py-2"></td>
+				</tr>
+			</tbody>
+		</table>
+		<br> <br> <br>
+		<h1 align="center" class="text-xl">User Commission / Login</h1>
+		<br>
+		<table class="table-auto mx-auto mb-10">
+			<thead class="border bg-transparent text-black">
+				<tr>
+					<td class="border px-4 py-2 text-xl">ID</td>
+					<td class="border px-4 py-2 text-xl">User</td>
+					<td class="border px-4 py-2 text-xl bg-green-300">Commission
+						($)</td>
+					<td class="border px-4 py-2 text-xl bg-green-300">%</td>
+					<td class="border px-4 py-2 text-xl">Last Login</td>
+
+				</tr>
+			</thead>
+			<tbody>
+				
+				<tr th:each="user:${user}">
+					<td th:text="${user.id}" class="border px-4 py-2"></td>
+					<td th:text="${user.userName}" class="border px-4 py-2"></td>
+					<td th:text="${user.totalCommission}" class="border px-4 py-2"></td>
+					<td th:text="${user.commission}" class="border px-4 py-2"></td>
+					<td th:text="${user.date}" class="border px-4 py-2"></td>
+				</tr>
+				<tr>
+
+					<td><input
+						class="mt-5 flex-shrink-0 bg-blue-500 hover:bg-teal-700 border-blue-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+						type="button" onclick="printDiv('printableArea')"
+						value="Sales Report" /></td>
+				</tr>
+
+			</tbody>
+		</table>
+<br>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+	<script>
+		function printDiv(printableArea) {
+			var printContents = document.getElementById(printableArea).innerHTML;
+			var originalContents = document.body.innerHTML;
+
+			document.body.innerHTML = printContents;
+
+			window.print();
+
+			document.body.innerHTML = originalContents;
+		}
+	</script>
+
+</body>
+</html>

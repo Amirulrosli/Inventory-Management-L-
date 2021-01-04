@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Inventory Management System</title>
+<link rel="stylesheet" href="css/fontawesome.min.css" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/templatemo-style.css">
+<link href="css/tailwind.min.css" rel="stylesheet">
+
+</head>
+<body>
+	<div>
+		<nav class="navbar navbar-expand-xl">
+			<div class="container h-100">
+				<a class="navbar-brand" href="#">
+					<h1>Inventory Management System</h1>
+				</a>
+				<ul>
+					<li class="mr-3"><a
+						class="inline-block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
+						href="/">logout</a></li>
+				</ul>
+
+			</div>
+
+
+		</nav>
+		<ul class="flex justify-between">
+			<li class="mr-3"><a
+				class="inline-block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
+				href="/verify">Search Product</a></li>
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/CashierAPI">Cashier API</a></li>
+			<li class="mr-3"><a
+				class="inline-block py-2 px-4 text-gray-400 cursor-not-allowed"
+				href="/adminID">Add/Update Product</a></li>
+			<li class="mr-3"><a
+				class="inline-block py-2 px-4 text-gray-400 cursor-not-allowed"
+				href="/adminID">List Products and Calculation</a></li>
+			<li class="mr-3"><a
+				class="inline-block py-2 px-4 text-gray-400 cursor-not-allowed"
+				href="/adminID">User Management</a></li>
+
+			<li class="mr-3"><a
+				class="inline-block py-2 px-4 text-gray-400 cursor-not-allowed"
+				href="/adminID">Users Logs</a></li>
+
+		</ul>
+	</div>
+
+	<div
+		class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3"
+		role="alert">
+		<p class="font-bold">WELCOME, USER</p>
+		<p class="text-sm">
+			To enable administrative changes, Please enter AdminID <a
+				href="/adminID" class="no-underline hover:underline text-teal-500">Here</a>.
+		</p>
+	</div>
+	<br />
+
+
+	<div class="absolute top-30 right-0 mx-2 mt-2">
+		<a href="/adminID">
+			<button
+				class="bg-blue-300 hover:bg-blue-700 text-white font-bold h-16 w-16 rounded-full">
+				<h1 class="text-xl">+</h1>
+			</button>
+		</a>
+	</div>
+
+	<form th:action="@{/verify}" class="mx-auto"
+		method="GET">
+		<div
+			class="mx-auto w-full max-w-sm flex items-center border-b border-b-2 border-teal-500 py-2">
+			<input
+				class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+				type="text" placeholder="Enter Product ID" aria-label="Full name"
+				name="id" >
+
+			<button
+				class="flex-shrink-0 bg-blue-500 hover:bg-teal-700 border-blue-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+				type="submit">Search</button>
+			<button
+				class="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
+				type="button">Cancel</button>
+		</div>
+		
+		<p th:text = "${warn}" align="center" class="text-red-400 "></p>
+
+		<br />
+		<h2 class="font-sans text-lg text-gray-800 text-center" align="center">Products</h2>
+		<br />
+
+
+		<table class="table-auto mx-auto">
+			<thead>
+				<tr>
+					<td class="px-4 py-2">ID</td>
+					<td class="px-4 py-2">Brand</td>
+					<td class="px-4 py-2">Price ($)</td>
+					<td class="px-4 py-2">Quantity</td>
+					<td class="px-4 py-2">Discount</td>
+					<td class="px-4 py-2">Total Price ($)</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product:${products}">
+					<td th:text="${product.id}" class="border px-4 py-2"></td>
+					<td th:text="${product.brand}" class="border px-4 py-2"></td>
+					<td th:text="${product.price}" class="border px-4 py-2"></td>
+					<td th:text="${product.quantity}" class="border px-4 py-2"></td>
+					<td th:text="${product.discount}" class="border px-4 py-2"></td>
+					<td th:text="${product.totalPrice}" class="border px-4 py-2"></td>
+
+				
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<p align="center" class="text-blue-500 text-m" th:text="${Result}"></p>
+	</form>
+
+
+
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="flex content-start flex-wrap container">
+		<div
+			class="flex content-start flex-wrap max-w-sm rounded overflow-hidden shadow-lg mx-4 mb-8">
+			<div class="px-6 py-4">
+				<div class="font-bold text-xl mb-2">Products Total Price</div>
+				<div>
+					<div class="inline-block">
+						<h1 class="inline-block text-red-500 font-bold text-5xl">$ <span th:text="${price}"></span></h1>
+						<h1 class="inline-block text-green-500">
+							-$<span th:text="${currentsales}"></span>
+						</h1>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div
+			class="flex content-start flex-wrap max-w-sm rounded overflow-hidden shadow-lg mx-4  mb-8">
+			<div class="px-6 py-4">
+				<div class="font-bold text-xl mb-2">Products Quantity:</div>
+				<div class="inline-block">
+					<h1 class="inline-block text-red-500 font-bold text-5xl" th:text="${quantity}"></h1>
+					<h1 class="inline-block text-green-500">
+						-<span th:text="${currentsold}"></span>
+					</h1>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="flex content-start flex-wrap max-w-sm rounded overflow-hidden shadow-lg mx-4  mb-8">
+			<div class="px-6 py-4">
+				<div class="font-bold text-xl mb-2">Total Sales:</div>
+				<div class="inline-block">
+					<h1 class="inline-block text-green-500 font-bold text-5xl">$<span th:text="${sales}">111.00</span></h1>
+					<h1 class="inline-block text-green-500">
+						+$ <span th:text="${currentsales}"></span>
+					</h1>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="flex content-start flex-wrap max-w-sm rounded overflow-hidden shadow-lg mx-4 mb-8">
+			<div class="px-6 py-4">
+				<div class="font-bold text-xl mb-2">Sold Quantity:</div>
+				<div class="inline-block">
+					<h1 class="inline-block text-green-500 font-bold text-5xl" th:text="${squantity}"></h1>
+					<h1 class="inline-block text-green-500">
+						+<span th:text="${currentsold}"></span>
+					</h1>
+				</div>
+			</div>
+		</div>
+		
+		<div
+			class="flex content-start flex-wrap max-w-sm rounded overflow-hidden shadow-lg mx-4 mb-8">
+			<div class="px-6 py-4">
+				<div class="font-bold text-xl mb-2">Total Commission:</div>
+				<div class="inline-block">
+					<h1 class="inline-block text-blue-500 font-bold text-5xl">$ <span th:text="${commission}"></span></h1>
+					<h1 class="inline-block text-blue-500">
+						+$ <span th:text="${currentcommission}">100</span>
+					</h1>
+				</div>
+
+			</div>
+		</div>
+		
+		
+		<div
+			class="flex content-start flex-wrap max-w-sm rounded overflow-hidden shadow-lg mx-4 mb-8">
+			<div class="px-6 py-4">
+				<div class="font-bold text-xl mb-2">Total Profit:</div>
+				<div class="inline-block">
+					<h1 class="inline-block text-green-500 font-bold text-5xl">$<span th:text="${totalProfit}"></span></h1>
+					<h1 class="inline-block text-green-500">
+						+$ <span th:text="${UpTotal}"></span>
+					</h1>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<br>
+	<br>
+	<p></p>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>ProductList</title>
+<link rel="stylesheet" href="css/fontawesome.min.css" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/templatemo-style.css">
+<link href="css/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+	<div>
+		<nav class="navbar navbar-expand-xl">
+			<div class="container h-100">
+				<a class="navbar-brand" href="/adminSearch">
+					<h1>Inventory Management System</h1>
+				</a>
+				<ul>
+					<li class="mr-3"><a
+						class="inline-block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
+						href="/">logout</a></li>
+				</ul>
+
+			</div>
+
+
+		</nav>
+		<ul class="flex justify-between">
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/adminSearch">Search Product</a></li>
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/CashierAdmin">Cashier API</a></li>
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/addProduct">Add/Update Product</a></li>
+			<li class="mr-3"><a
+				class="inline-block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white"
+				href="/List">List Products and Calculation</a></li>
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/usermanage">User Management</a></li>
+
+			<li class="mr-3"><a
+				class="inline-block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4"
+				href="/logs">Users Logs</a></li>
+
+		</ul>
+	</div>
+
+	<div
+		class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3"
+		role="alert">
+		<p class="font-bold">Welcome to Products List and Calculation</p>
+		<p class="text-sm">
+			User will be able to view Product List, logs and Sales Calculation <a
+				href="#" class="no-underline hover:underline text-teal-500">Here</a>.
+		</p>
+	</div>
+
+	<h1></h1>
+
+	<div class="w-64 mx-auto mt-10">
+		<form method="POST">
+			<label>Sort By:</label> 
+			<br>
+		<div class="flex">
+		 <input name="label" type="text" list="sortlabel" class="flex-shrink-0 block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" placeholder="Select">
+			<datalist id="sortlabel">
+				<option th:value="${id}"></option>
+				<option th:value="${brand}"></option>
+				<option th:value="${priceOption}"></option>
+			</datalist>
+			<button
+				class="flex-shrink-0 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+				type="submit">Sort</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="printableArea">
+		<br> <br>
+		<h1 align="center" class="text-xl">Product List</h1>
+		<br> <br>
+
+		<table class="table-auto mx-auto">
+			<thead>
+				<tr>
+					<td class="px-4 py-2 text-xl">ID</td>
+					<td class="px-4 py-2 text-xl">Brand</td>
+					<td class="px-4 py-2 text-xl">Price ($)</td>
+					<td class="px-4 py-2 text-xl">Quantity</td>
+					<td class="px-4 py-2 text-xl">Discount</td>
+					<td class="px-4 py-2 text-xl">Total Price ($)</td>
+					<td class="px-4 py-2 text-xl">Date Updated</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product:${product}">
+					<td th:text="${product.id}" class="border px-4 py-2"></td>
+					<td th:text="${product.brand}" class="border px-4 py-2"></td>
+					<td th:text="${product.price}" class="border px-4 py-2"></td>
+					<td th:text="${product.quantity}" class="border px-4 py-2"></td>
+					<td th:text="${product.discount}" class="border px-4 py-2"></td>
+					<td th:text="${product.totalPrice}" class="border px-4 py-2"></td>
+					<td th:text="${product.date}" class="border px-4 py-2"></td>
+				</tr>
+				<tr>
+					<td><a href="/addProduct"><button
+								class="inline-block bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded mx-auto">
+								Add</button></a></td>
+
+					<td><a href="/delProduct"><button
+								class="inline-block bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded mx-auto">
+								Delete</button></a></td>
+
+				</tr>
+			</tbody>
+
+		</table>
+		<br>
+		<p align="center" class="text-l text-blue-500 font-bold"
+			th:text="${warn}"></p>
+
+
+
+
+
+
+
+		<table class="table-auto mx-auto mt-20" th:if="${show==true}">
+			<thead>
+				<tr>
+					<td class="px-4 py-2"></td>
+					<td class="px-4 py-2 text-xl" align="center" colspan="4">Product
+						Sales Calculation</td>
+					<td class="px-4 py-2"></td>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="border px-4 py-2 text-blue-500">Total Products
+						Price</td>
+					<td class="border px-4 py-2 text-blue-500">Products Quantity</td>
+					<td class="border px-4 py-2 text-red-500">User Commision</td>
+					<td class="border px-4 py-2 text-green-500">Total Sales</td>
+					<td class="border px-4 py-2 text-green-500">Sold Quantity</td>
+					<td class="border px-4 py-2 text-green-500">Total Profit</td>
+
+
+				</tr>
+
+				<tr>
+					<td th:text="${price}" class="border px-4 py-2">$</td>
+					<td th:text="${quantity}" class="border px-4 py-2"></td>
+					<td th:text="${commission}" class="border px-4 py-2"></td>
+					<td th:text="${sales}" class="border px-4 py-2"></td>
+					<td th:text="${soldQuantity}" class="border px-4 py-2"></td>
+					<td th:text="${profit}" class="border px-4 py-2"></td>
+
+				</tr>
+
+				<tr>
+
+					<td><input
+						class="mt-5 flex-shrink-0 bg-blue-500 hover:bg-teal-700 border-blue-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+						type="button" onclick="printDiv('printableArea')"
+						value="Sales Report" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br>
+
+
+	<p></p>
+	<p></p>
+
+	<script>
+		function printDiv(printableArea) {
+			var printContents = document.getElementById(printableArea).innerHTML;
+			var originalContents = document.body.innerHTML;
+
+			document.body.innerHTML = printContents;
+
+			window.print();
+
+			document.body.innerHTML = originalContents;
+		}
+	</script>
+
+</body>
+</html>
